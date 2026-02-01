@@ -1,6 +1,6 @@
 # 📦 Gerenciador de Produtos - Laravel 12 & Docker
 
-Este projeto é uma solução completa para gerenciamento de produtos, desenvolvida com **Laravel 12** e **PHP 8.2**. A aplicação segue as melhores práticas de desenvolvimento, utilizando princípios **SOLID**, **Clean Code** e **Arquitetura em Camadas (Service Layer)**.
+Este projeto é uma solução para gerenciamento de produtos, desenvolvida com **Laravel 12** e **PHP 8.2**. A aplicação segue as melhores práticas de desenvolvimento, utilizando princípios **SOLID**, **Clean Code** e **Arquitetura em Camadas (Service Layer)**.
 
 ## 🛠️ Tecnologias e Ferramentas
 
