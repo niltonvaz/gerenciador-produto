@@ -1,59 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📦 Gerenciador de Produtos - Laravel 12 & Docker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este projeto é uma solução completa para gerenciamento de produtos, desenvolvida com **Laravel 12** e **PHP 8.2**. A aplicação segue as melhores práticas de desenvolvimento, utilizando princípios **SOLID**, **Clean Code** e **Arquitetura em Camadas (Service Layer)**.
 
-## About Laravel
+## 🛠️ Tecnologias e Ferramentas
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Framework:** Laravel 12
+- **Linguagem:** PHP 8.2
+- **Banco de Dados:** MySQL 8.0
+- **Containerização:** Docker & Docker Compose
+- **Autenticação Web:** Laravel Breeze (Blade + Tailwind)
+- **Autenticação API:** Laravel Sanctum (Bearer Token)
+- **Testes:** PHPUnit
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Como Executar a Aplicação
 
-## Learning Laravel
+Siga os passos abaixo para configurar o ambiente em sua máquina local:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Clonar o Repositório
+```bash
+git clone https://github.com/SEU_USUARIO/NOME_DO_REPO.git
+cd gerenciador-produto
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Configurar Variáveis de Ambiente
+```bash
+cp .env.example .env
+```
+*Nota: Verifique se os valores de banco no `.env` coincidem com o `docker-compose.yml`.*
 
-## Laravel Sponsors
+### 3. Subir o Ambiente Docker
+```bash
+docker compose up -d
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 4. Instalar Dependências e Preparar o Banco
+Execute os comandos abaixo para configurar o Laravel dentro do container:
+```bash
+# Instalar dependências
+docker exec gerenciador_app composer install
 
-### Premium Partners
+# Gerar chave da aplicação
+docker exec gerenciador_app php artisan key:generate
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Criar link simbólico para as imagens (Storage)
+docker exec gerenciador_app php artisan storage:link
 
-## Contributing
+# Rodar Migrations e Seeders
+docker exec gerenciador_app php artisan migrate --seed
+```
+**Acesso:** [http://localhost:8000](http://localhost:8000)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🧪 Como Executar os Testes
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+A aplicação conta com uma suíte de testes unitários e de integração que garantem a integridade das regras de negócio.
+```bash
+docker exec gerenciador_app php artisan test
+```
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📌 Funcionalidades Implementadas
 
-## License
+### 💻 Interface Web
+- **Vitrine Pública:** Listagem de produtos em cards responsivos com imagem, nome, descrição e preço.
+- **Painel de Gerenciamento:** Área restrita para usuários autenticados com CRUD completo e interface em tabela.
+- **Upload de Fotos:** Processamento e armazenamento de imagens físicas no servidor local.
+- **Filtros de Busca:** Pesquisa por nome (pública) e filtro de estoque mínimo (exclusivo para admin).
+- **Feedback Visual:** Mensagens de sucesso padronizadas com fechamento automático.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 🌐 API RESTful Protegida
+- **Autenticação:** Endpoints protegidos por Bearer Token.
+- **Resposta Padronizada:** Segue o formato: `{ data, message, errors }`.
+- **Endpoints:** Listagem, Cadastro, Atualização e Exclusão.
+
+---
+
+## 🏛️ Arquitetura e SOLID
+
+- **S (Single Responsibility):** Toda a lógica de negócio e manipulação de arquivos isolada na classe `ProductService`.
+- **D (Dependency Inversion):** Controllers dependem da camada de serviço injetada via construtor.
+- **Clean Code:** Uso de `FormRequests` para validação e `JsonResources` para padronização da API.
+
+---
+
+## 📸 Demonstração Visual
+
+### 🎨 Interface do Usuário (Web)
+
+| Vitrine de Produtos (Público) | Painel Administrativo (Logado) |
+|---|---|
+| ![vitrine](https://github.com/user-attachments/assets/a918c39f-b5fb-45a0-abc5-dae89a553c6f) | ![admin](https://github.com/user-attachments/assets/ea93e988-ca08-45aa-816b-1f6cdefcae2a) |
+
+#### Fluxos de Gestão
+- **Autenticação (Login e Registro):**
+![login](https://github.com/user-attachments/assets/91e50f8a-35e9-4343-a746-5ff26f82a2f9)
+![register](https://github.com/user-attachments/assets/acad0822-c499-44f1-805c-4162103f3272)
+
+- **Cadastro e Edição:**
+![create](https://github.com/user-attachments/assets/3f12d7c6-6389-447d-92c2-f7881c81f743)
+![edit](https://github.com/user-attachments/assets/136e00c0-5609-4943-b7f9-75c1899da47d)
+
+- **Busca e Perfil:**
+![search](https://github.com/user-attachments/assets/8d1f8d28-90be-4b84-af1f-4ba627823708)
+![profile](https://github.com/user-attachments/assets/c459edf2-5670-45d6-a356-a6a3440affc1)
+
+---
+
+### 🛠️ API RESTful (Postman)
+
+**Listagem:**
+![listar](https://github.com/user-attachments/assets/7cb6f9fb-40ee-422f-9b1c-a5eaaddca3c1)
+
+**Cadastro:**
+![cadastrar](https://github.com/user-attachments/assets/8fc8e489-7470-4760-ad06-577021adb022)
+
+**Atualização:**
+![atualizar](https://github.com/user-attachments/assets/6d08308f-1ccc-4e6a-8e25-eef73e6f9eda)
+
+**Exclusão:**
+![excluir](https://github.com/user-attachments/assets/ae6bbb40-a845-498e-b78b-c32b80558d1e)
+
+---
+
+**Desenvolvido por Nilton Rodrigues Vaz** 🚀
+```
