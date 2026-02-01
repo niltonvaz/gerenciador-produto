@@ -5,7 +5,7 @@
                 Gerenciador de Produtos
             </h2>
             @auth
-                <a href="{{ route('products.create') }}" class="bg-gray-800 text-white px-4 py-2 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-gray-700 transition shadow-sm">
+                <a href="{{ route('products.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-blue-700 transition shadow-sm">
                     + Novo Produto
                 </a>
             @endauth
@@ -36,9 +36,9 @@
                             <input type="number" name="min_stock" value="{{ request('min_stock') }}" class="border-gray-200 rounded-lg w-24">
                         </div>
                     @endauth
-                    <button type="submit" class="bg-gray-800 text-white px-6 py-2 rounded-lg font-bold h-[42px] hover:bg-black transition flex items-center">
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg font-bold h-[42px] hover:bg-blue-700 transition flex items-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        Filtrar
+                        Pesquisar
                     </button>
                 </form>
             </div>
