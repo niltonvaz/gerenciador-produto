@@ -20,7 +20,7 @@ Siga os passos abaixo para configurar o ambiente em sua máquina local:
 
 ### 1. Clonar o Repositório
 ```bash
-git clone https://github.com/SEU_USUARIO/NOME_DO_REPO.git
+git clone https://github.com/niltonrvazdev/gerenciador-produto.git
 cd gerenciador-produto
 ```
 
