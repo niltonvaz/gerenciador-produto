@@ -52,6 +52,13 @@ docker exec gerenciador_app php artisan migrate --seed
 ```
 **Acesso:** [http://localhost:8000](http://localhost:8000)
 
+### 5. Compilação de Assets (CSS/JS)
+Para que o layout (Tailwind CSS) funcione corretamente, você deve compilar os arquivos de front-end. 
+Rode os comandos abaixo na sua máquina local (fora do container, na pasta raiz do projeto):
+
+```bash
+npm install
+npm run build
 ---
 
 ## 🧪 Como Executar os Testes
