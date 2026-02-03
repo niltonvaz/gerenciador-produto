@@ -2,8 +2,7 @@
 
 Este projeto é uma solução de alta performance para gerenciamento de produtos, desenvolvida com **Laravel 12** e **PHP 8.3**. A arquitetura foi desenhada para ser **"Zero Config"**, onde todo o ambiente (Servidor Nginx, Banco MySQL, Node.js para Assets e Dependências PHP) é configurado automaticamente via Docker.
 
-**Repositório Oficial:** [https://github.com/niltonrvazdev/gerenciador-produto.git](https://github.com/niltonrvazdev/gerenciador-produto.git)
-
+**Repositório Oficial:** [https://github.com/niltonvaz/gerenciador-produto.git](https://github.com/niltonvaz/gerenciador-produto.git)
 ---
 
 ## 🚀 Instalação "Um Clique" (Full Automation)
