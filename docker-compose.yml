@@ -12,6 +12,8 @@ services:
       - db
     networks:
       - laravel
+    expose:
+    - "9000"
 
 
   nginx:
