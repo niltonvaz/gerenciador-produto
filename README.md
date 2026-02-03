@@ -9,24 +9,27 @@ Este projeto é uma solução de alta performance para gerenciamento de produtos
 
 Não é necessário ter PHP, Node ou MySQL instalados em sua máquina física. O sistema cuida de tudo.
 
-### 1. Clonar o Repositório
+### 1. # 🚀 Como rodar o projeto (passo a passo para iniciantes)
+
+## ✅ Pré-requisitos
+Antes de começar, você precisa ter instalado no seu computador:
+
+- Git
+- Docker
+- Docker Compose
+
+> ⚠️ Não é necessário instalar PHP, MySQL, Node ou NPM.
+> Tudo isso será executado automaticamente dentro do Docker.
+
+---
+
+## 1️⃣ Baixar o projeto
+
+Abra o terminal e execute:
+
 ```bash
 git clone https://github.com/niltonvaz/gerenciador-produto.git
-cd gerenciador-produto
-2. Preparar o Ambiente
-code
-Bash
-cp .env.example .env
-3. Subir e Instalar tudo
-Execute o comando abaixo e aguarde. O Docker irá baixar as imagens e o script entrypoint.sh fará o resto:
-code
-Bash
-docker compose up -d --build
 
-## 🧪 Como Executar os Testes
-A aplicação conta com uma suíte de testes unitários e de integração que garantem a integridade das regras de negócio.
-```bash
-docker exec gerenciador_app php artisan test
 ```
 
 ---
