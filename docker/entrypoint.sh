@@ -67,8 +67,11 @@ chmod -R 775 storage bootstrap/cache
 # ===============================
 # MIGRATIONS (AQUI 👇)
 # ===============================
-echo "🗄️ Rodando migrations..."
-php artisan migrate --force
+if [ -f "artisan" ]; then
+  echo "🗄️ Rodando migrations..."
+  php artisan migrate --force
+fi
+
 
 echo "✅ Aplicação pronta!"
 
