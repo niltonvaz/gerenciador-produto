@@ -6,7 +6,7 @@ cd /var/www/html
 echo "🚀 Inicializando aplicação Laravel..."
 
 # ===============================
-# Aguarda o banco ficar pronto
+# Aguarda MySQL
 # ===============================
 echo "⏳ Aguardando MySQL..."
 until php -r "
@@ -23,27 +23,25 @@ try {
 "; do
   sleep 2
 done
+echo ""
 
 # ===============================
-# Dependências PHP
+# Composer
 # ===============================
-if [ ! -d "vendor" ]; then
-  echo "📦 Instalando dependências PHP (composer)..."
+if [ ! -f "vendor/autoload.php" ]; then
+  echo "📦 Instalando dependências PHP..."
   composer install --no-interaction --prefer-dist
 fi
 
 # ===============================
-# Dependências JS
+# Node
 # ===============================
 if [ ! -d "node_modules" ]; then
-  echo "📦 Instalando dependências JS (npm)..."
+  echo "📦 Instalando dependências JS..."
   npm install
 fi
 
-# ===============================
-# Build frontend
-# ===============================
-echo "⚡ Buildando assets (Vite)..."
+echo "⚡ Buildando assets..."
 npm run build
 
 # ===============================
@@ -55,9 +53,8 @@ if ! grep -q "APP_KEY=base64" .env; then
 fi
 
 # ===============================
-# Storage e permissões
+# Permissões
 # ===============================
-echo "🔐 Ajustando permissões..."
 mkdir -p storage/framework/{cache,sessions,views}
 mkdir -p storage/app/public
 
@@ -65,17 +62,16 @@ chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
 # ===============================
-# MIGRATIONS (AQUI 👇)
+# Tabelas internas Laravel
 # ===============================
-if [ -f "artisan" ]; then
-  echo "🗄️ Rodando migrations..."
-  php artisan migrate --force
-fi
-
-
-echo "✅ Aplicação pronta!"
+php artisan session:table || true
+php artisan cache:table || true
+php artisan queue:table || true
 
 # ===============================
-# Inicia o PHP-FPM
+# Migrations
 # ===============================
-exec php-fpm
+php artisan migrate --force
+
+echo "✅ Laravel pronto!"
+exec php-fpm -F
