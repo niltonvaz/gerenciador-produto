@@ -12,6 +12,9 @@ services:
       - db
     expose:
       - "9000"
+    networks:
+      - laravel  
+
 
   nginx:
     image: nginx:alpine
