@@ -1,44 +1,140 @@
-# 📦 Gerenciador de Produtos - Laravel 12 & Docker (Automação Total)
+# 📦 Gerenciador de Produtos - Laravel 12 & Docker
 
-Este projeto é uma solução de alta performance para gerenciamento de produtos, desenvolvida com **Laravel 12** e **PHP 8.3**. A arquitetura foi desenhada para ser **"Zero Config"**, onde todo o ambiente (Servidor Nginx, Banco MySQL, Node.js para Assets e Dependências PHP) é configurado automaticamente via Docker.
+Sistema de gerenciamento de produtos com **Laravel 12**, **PHP 8.3**, **Nginx**, **MySQL** e **Vite**.
 
-**Repositório Oficial:** [https://github.com/niltonvaz/gerenciador-produto.git](https://github.com/niltonvaz/gerenciador-produto.git)
 ---
 
-## 🚀 Instalação "Um Clique" (Full Automation)
+## ⚡ Quick Start (3 Passos)
 
-Não é necessário ter PHP, Node ou MySQL instalados em sua máquina física. O sistema cuida de tudo.
+### 1️⃣ Clonar o Repositório
+```bash
+git clone https://github.com/niltonrvazdev/gerenciador-produto.git
+cd gerenciador-produto
+```
 
-### 1. # 🚀 Como rodar o projeto (passo a passo para iniciantes)
+### 2️⃣ Iniciar os Containers
+```bash
+docker compose up -d --build
+sleep 30
+```
 
-## ✅ Pré-requisitos
-Antes de começar, você precisa ter instalado no seu computador:
+### 3️⃣ Acessar no Navegador
+```
+http://localhost:8000
+```
 
+✅ **Pronto!** Sua aplicação está rodando.
+
+---
+
+## 🤖 Alternativa: Setup Automático
+
+Se preferir uma instalação completamente automatizada:
+
+```bash
+./setup.sh
+```
+
+Este script valida dependências, inicia containers, e verifica se tudo está funcionando.
+
+---
+
+## ⚙️ Configuração Manual Detalhada
+
+Para um guia passo-a-passo completo com explicações detalhadas, consulte [SETUP_GUIDE.md](./SETUP_GUIDE.md).
+
+### Pré-requisitos
 - Git
 - Docker
 - Docker Compose
 
-> ⚠️ Não é necessário instalar PHP, MySQL, Node ou NPM.
-> Tudo isso será executado automaticamente dentro do Docker.
+> ⚠️ Não é necessário instalar PHP, MySQL, Node ou NPM em sua máquina.
+> Tudo rodará dentro do Docker.
 
----
-
-## 1️⃣ Baixar o projeto
-
-## Instalação
-
-Execute os comandos abaixo no terminal:
+### Instalação
 
 ```bash
-git clone https://github.com/niltonvaz/gerenciador-produto.git
+git clone https://github.com/niltonrvazdev/gerenciador-produto.git
 cd gerenciador-produto
-cp .env.example .env
 docker compose up -d --build
 ```
 
 ---
 
-## 📌 Funcionalidades Implementadas
+## � Documentação
+
+| Arquivo | Descrição |
+|---------|-----------|
+| [SETUP_GUIDE.md](./SETUP_GUIDE.md) | Guia completo de setup com todos os detalhes |
+| [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) | Análise técnica do erro 502 e resolução |
+| [DEBUG_CHECKLIST.md](./DEBUG_CHECKLIST.md) | Checklist rápido para diagnóstico de problemas |
+| [CHANGELOG.md](./CHANGELOG.md) | Histórico de alterações e hotfixes |
+| [RESUMO_EXECUTIVO.md](./RESUMO_EXECUTIVO.md) | Resumo técnico da solução implementada |
+
+---
+
+## 🔧 Comandos Úteis
+
+```bash
+# Ver status dos containers
+docker compose ps
+
+# Ver logs da aplicação
+docker compose logs -f app
+
+# Parar a aplicação
+docker compose down
+
+# Reiniciar
+docker compose restart
+
+# Acessar terminal do container
+docker compose exec app bash
+
+# Compilar assets (CSS/JavaScript)
+docker compose exec app npm run build
+
+# Rodar migrations
+docker compose exec app php artisan migrate
+
+# Criar usuário de teste
+docker compose exec app php artisan tinker
+# E dentro do Tinker:
+# >>> User::factory()->create(['email' => 'test@example.com']);
+```
+
+---
+
+## 🌐 URLs de Acesso
+
+| Serviço | URL |
+|---------|-----|
+| Aplicação | http://localhost:8000 |
+| MySQL | localhost:3306 |
+| Nginx | http://localhost:8000 |
+
+---
+
+## 🐛 Encontrou um Erro?
+
+1. **Execute o diagnóstico:**
+   ```bash
+   ./validate_502_fix.sh
+   ```
+
+2. **Consulte o checklist:**
+   ```bash
+   cat DEBUG_CHECKLIST.md
+   ```
+
+3. **Leia a análise técnica:**
+   ```bash
+   cat TROUBLESHOOTING.md
+   ```
+
+---
+
+## �📌 Funcionalidades Implementadas
 
 ### 💻 Interface Web
 - **Vitrine Pública:** Listagem de produtos em cards responsivos com imagem, nome, descrição e preço.
@@ -118,6 +214,49 @@ docker compose up -d --build
 ![excluir](https://github.com/user-attachments/assets/ae6bbb40-a845-498e-b78b-c32b80558d1e)
 **Exemplo**
 http://localhost:8000/api/products/valor_do_gregistro_a_ser_excluido
+
+---
+
+## 🛠️ Stack Tecnológico
+
+| Componente | Tecnologia | Versão |
+|-----------|-----------|--------|
+| Framework Web | Laravel | 12.x |
+| Linguagem | PHP | 8.3 |
+| Banco de Dados | MySQL | 8.0 |
+| Web Server | Nginx | Alpine |
+| Node Runtime | Node.js | v22 |
+| Build Tool | Vite | 7.0.7 |
+| CSS Framework | Tailwind CSS | 3.1.0 |
+| JavaScript | Alpine.js | 3.x |
+| Containerização | Docker | Latest |
+| Orquestração | Docker Compose | Latest |
+
+---
+
+## 📈 Arquitetura
+
+```
+┌─────────────────────────────────────────────┐
+│  Navegador (http://localhost:8000)          │
+└────────────────────┬────────────────────────┘
+                     │
+    ┌────────────────┴──────────────────┐
+    │    Docker Compose Network        │
+    │                                   │
+    ├──────────────────────────────────┤
+    │  nginx:alpine (Port 8000)        │
+    │  ↓                               │
+    │  app (PHP 8.3 + Laravel 12)      │
+    │  ↓                               │
+    │  mysql:8.0                       │
+    │                                   │
+    │  Volume mounts for dev:          │
+    │  - /app → projeto local          │
+    │  - /storage → storage/           │
+    └──────────────────────────────────┘
+```
+
 ---
 
 **Desenvolvido por Nilton Rodrigues Vaz** 🚀
