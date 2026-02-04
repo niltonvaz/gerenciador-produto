@@ -9,24 +9,18 @@ echo "🚀 Inicializando aplicação Laravel..."
 # Aguarda MySQL
 # ===============================
 echo "⏳ Aguardando MySQL..."
-until nc -z db 3306; do
+COUNTER=0
+MAX_RETRIES=30
+until nc -z db 3306 2>/dev/null; do
+  COUNTER=$((COUNTER + 1))
+  if [ $COUNTER -ge $MAX_RETRIES ]; then
+    echo "❌ MySQL não respondeu após $MAX_RETRIES tentativas"
+    exit 1
+  fi
+  echo "Aguardando MySQL... (tentativa $COUNTER/$MAX_RETRIES)"
   sleep 2
 done
-until php -r "
-try {
-    new PDO(
-        'mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT'),
-        getenv('DB_USERNAME'),
-        getenv('DB_PASSWORD')
-    );
-    echo 'MySQL pronto!';
-} catch (Exception \$e) {
-    exit(1);
-}
-"; do
-  sleep 2
-done
-echo ""
+echo "✅ MySQL está acessível"
 
 # ===============================
 # Composer
@@ -61,6 +55,23 @@ fi
 mkdir -p storage/framework/{cache,sessions,views}
 mkdir -p storage/app/public
 
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
+
+# ===============================
+# Tabelas internas Laravel
+# ===============================
+php artisan session:table || true
+php artisan cache:table || true
+php artisan queue:table || true
+
+# ===============================
+# Migrations
+# ===============================
+php artisan migrate --force
+
+echo "✅ Laravel pronto!"
+exec php-fpm -F
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
