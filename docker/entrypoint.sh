@@ -39,7 +39,7 @@ if [ ! -d "node_modules" ]; then
 fi
 
 echo "⚡ Buildando assets..."
-npm run build
+npm run build || npm run dev || true
 
 # ===============================
 # APP_KEY
@@ -55,23 +55,6 @@ fi
 mkdir -p storage/framework/{cache,sessions,views}
 mkdir -p storage/app/public
 
-chown -R www-data:www-data storage bootstrap/cache
-chmod -R 775 storage bootstrap/cache
-
-# ===============================
-# Tabelas internas Laravel
-# ===============================
-php artisan session:table || true
-php artisan cache:table || true
-php artisan queue:table || true
-
-# ===============================
-# Migrations
-# ===============================
-php artisan migrate --force
-
-echo "✅ Laravel pronto!"
-exec php-fpm -F
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
